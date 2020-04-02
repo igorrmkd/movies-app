@@ -11,13 +11,20 @@ const fetchData = async (searchterm) => {
 
 const input = document.querySelector('input');
 
-let timeoutId; // timeoutId from setTimeout
-const onInput = event => {
-    if (timeoutId) {  // if there is a timeoutId..
-        clearTimeout(timeoutId);  // clear it, so the fetching wont happen as long as you are getting new input in oninput
-    }
-    setTimeout(() => { // generate a timeoutId, and fetch with a delay
-        fetchData(event.target.value); //fetch
-    }, 1000); //delay
+const debounce = (func, delay = 1000) => {  // func-> the function that needs delay(was 1000ms)
+    let timeoutId;
+    return (...args) => { // the guard against running before the delay
+        if (timeoutId) {
+            clearTimeout(timeoutId);
+        }
+        timeoutId = setTimeout(() => {
+            func.apply(null, args);
+        }, delay);
+    };
 };
-input.addEventListener('input', onInput);
+
+const onInput = event => {
+    fetchData(event.target.value);
+};
+input.addEventListener('input', debounce(onInput, 500)); // 500ms delay
+
