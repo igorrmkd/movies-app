@@ -57,3 +57,10 @@ const onInput = async event => {
 };
 input.addEventListener('input', debounce(onInput, 500)); // 500ms delay
 
+document.addEventListener('click', event => {
+    // console.log(event.target); /// logs every click on the page
+    if (!root.contains(event.target)) { /// if the click event is not inside the root (autocomplete widget), remove the "is-active" class, and that will close the dropdown list.
+        dropdown.classList.remove('is-active');
+    }
+})
+
