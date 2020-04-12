@@ -36,7 +36,7 @@ const onInput = async event => {
     const movies = await fetchData(event.target.value);
 
     // after you delete the search term => if there is no movie fetched, remove the "is-active" class, and that will close the dropdown list.
-    if (!movie.length) {
+    if (!movies.length) {
         dropdown.classList.remove('is-active');
         return;
     }
@@ -57,6 +57,11 @@ const onInput = async event => {
             <img src="${imgSrc}" />
             ${movie.Title}
         `;
+        option.addEventListener('click', () => {
+            dropdown.classList.remove('is-active');
+            input.value = movie.Title;
+        });
+
         resultsWrapper.appendChild(option);
     }
 
