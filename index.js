@@ -83,7 +83,28 @@ const onMovieSelect = async movie => {
             i: movie.imdbID  // search/fetch by movie ID - https://omdbapi.com/
         }
     });
-    console.log(response.data);
+
+    // generate the html template/movieTemplate(response.data)/ -> and show them on the "id summary" in index.html
+    document.querySelector('#summary').innerHTML = movieTemplate(response.data);
 
 };
 
+// a template for showing selected movie data, fetched from the API
+const movieTemplate = (movieDetail) => {
+    return `
+    <article class="media">
+        <figure class="media-left">
+            <p class="image">
+                <img src="${movieDetail.Poster}" />
+            </p>
+        </figure>
+        <div class="media-content">
+            <div class="content">
+                <h1>${movieDetail.Title}</h1>
+                <h4>${movieDetail.Genre}</h4>
+                <p>${movieDetail.Plot}</p>
+            </div>
+        </div>
+    </article>
+    `;
+};
