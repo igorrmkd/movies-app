@@ -35,6 +35,12 @@ const resultsWrapper = document.querySelector('.results');
 const onInput = async event => {
     const movies = await fetchData(event.target.value);
 
+    // after you delete the search term => if there is no movie fetched, remove the "is-active" class, and that will close the dropdown list.
+    if (!movie.length) {
+        dropdown.classList.remove('is-active');
+        return;
+    }
+
     //clear the previous search results
     resultsWrapper.innerHTML = '';
     //  as soon as we fetched the movies, add this class to enable the dropdown
