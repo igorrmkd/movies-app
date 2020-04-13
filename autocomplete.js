@@ -1,4 +1,4 @@
-const createAutoComplete = ({ root }) => {
+const createAutoComplete = ({ root, renderOption }) => {
     root.innerHTML = `
         <label><b>Search for a Movie</b></label>
         <input class="input" />
@@ -30,15 +30,9 @@ const createAutoComplete = ({ root }) => {
         // generate some html content on the page, -> the search results
         for (let movie of movies) {
             const option = document.createElement('a');
-            // if the Poster image is N/A , set the source as empty string, otherwise.. use the actuall Poster image link as source
-            const imgSrc = movie.Poster === 'N/A' ? '' : movie.Poster;
-
 
             option.classList.add('dropdown-item');
-            option.innerHTML = `
-            <img src="${imgSrc}" />
-            ${movie.Title}
-        `;
+            option.innerHTML = renderOption(movie);
             option.addEventListener('click', () => {
                 dropdown.classList.remove('is-active');
                 input.value = movie.Title;
