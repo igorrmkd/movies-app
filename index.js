@@ -8,6 +8,8 @@ const autocompleteConfig = {
         `;
     },
     onOptionSelect(movie) {
+        /// after you click and select a movie.. hide the tutorial with a "bulma" class
+        document.querySelector('.tutorial').classList.add('is-hidden');
         onMovieSelect(movie);
     },
     inputValue(movie) {
