@@ -7,11 +7,7 @@ const autocompleteConfig = {
             ${movie.Year}
         `;
     },
-    onOptionSelect(movie) {
-        /// after you click and select a movie.. hide the tutorial with a "bulma" class
-        document.querySelector('.tutorial').classList.add('is-hidden');
-        onMovieSelect(movie);
-    },
+
     inputValue(movie) {
         return movie.Title;
     },
@@ -36,14 +32,24 @@ const autocompleteConfig = {
 
 createAutoComplete({
     ...autocompleteConfig, ///this means - make a copy of that object, and use it here..
-    root: document.querySelector('#left-autocomplete')
+    root: document.querySelector('#left-autocomplete'),
+    onOptionSelect(movie) {
+        /// after you click and select a movie.. hide the tutorial with a "bulma" class
+        document.querySelector('.tutorial').classList.add('is-hidden');
+        onMovieSelect(movie, document.querySelector('#left-summary'));
+    }
 });
 createAutoComplete({
     ...autocompleteConfig, ///this means - make a copy of that object, and use it here..
-    root: document.querySelector('#right-autocomplete')
+    root: document.querySelector('#right-autocomplete'),
+    onOptionSelect(movie) {
+        /// after you click and select a movie.. hide the tutorial with a "bulma" class
+        document.querySelector('.tutorial').classList.add('is-hidden');
+        onMovieSelect(movie, document.querySelector('#right-summary'));
+    }
 });
 
-const onMovieSelect = async movie => {
+const onMovieSelect = async (movie, summaryElement) => {
     const response = await axios.get('http://www.omdbapi.com/', {
         params: {
             apikey: "c04285f4",
@@ -52,7 +58,7 @@ const onMovieSelect = async movie => {
     });
 
     // generate the html template/movieTemplate(response.data)/ -> and show them on the "id summary" in index.html
-    document.querySelector('#summary').innerHTML = movieTemplate(response.data);
+    summaryElement.innerHTML = movieTemplate(response.data);
 
 };
 
