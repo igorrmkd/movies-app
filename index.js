@@ -1,21 +1,3 @@
-const fetchData = async (searchterm) => {
-    const response = await axios.get('http://www.omdbapi.com/', {
-        params: {
-            apikey: "c04285f4",
-            s: searchterm
-        }
-    });
-
-    // if there is an response Error, i.e. the earched movie is not found.. return an empty array
-    if (response.data.Error) {
-        return [];
-    }
-
-    // return the data from Search
-    return response.data.Search;
-
-};
-
 createAutoComplete({
     root: document.querySelector('.autocomplete'),
     renderOption(movie) {
@@ -31,6 +13,23 @@ createAutoComplete({
     },
     inputValue(movie) {
         return movie.Title;
+    },
+    async fetchData(searchTerm) {
+        const response = await axios.get('http://www.omdbapi.com/', {
+            params: {
+                apikey: "c04285f4",
+                s: searchTerm
+            }
+        });
+
+        // if there is an response Error, i.e. the earched movie is not found.. return an empty array
+        if (response.data.Error) {
+            return [];
+        }
+
+        // return the data from Search
+        return response.data.Search;
+
     }
 });
 
