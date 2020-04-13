@@ -75,12 +75,35 @@ const onMovieSelect = async (movie, summaryElement, side) => {
 };
 
 const runComparison = () => {
-    console.log("ajkjdasjaalaallala");
+    console.log("runComparison");
 
 };
 
 // a template for showing selected movie data, fetched from the API
 const movieTemplate = (movieDetail) => {
+    // it brings back a string "$629.444.258"
+    // wee need to replace $ using regex(other course???) to empty string, and convert(parseInt) the rest of it to a plain number -
+    const dollars = parseInt(movieDetail.BoxOffice.replace(/\$/g, '').replace(/,/g, ''));
+    const metascore = parseInt(movieDetail.Metascore);
+    const imdbRating = parseFloat(movieDetail.imdbRating);
+    const imdbVotes = parseInt(movieDetail.imdbVotes.replace(/,/g, ''));
+
+    /// track the awards value 
+    let count = 0;
+    /// split the content by empty spaces, and save them as words or numbers in a array
+    const awards = movieDetail.Awards.split(' ').forEach((word) => {
+        const value = parseInt(word); // convert all items to numbers, so that the words will become NaN
+        if (isNaN(value)) { // if the parsed word is NaN, dont do anything
+            return;
+        } else {  // if the parsed word is a number, add it to count
+            count = count + value;
+        }
+    });
+
+
+    console.log(count);
+
+
     return `
     <article class="media">
         <figure class="media-left">
