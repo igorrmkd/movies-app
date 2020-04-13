@@ -1,6 +1,6 @@
 const createAutoComplete = ({ root, renderOption, onOptionSelect, inputValue, fetchData }) => {
     root.innerHTML = `
-        <label><b>Search for a Movie</b></label>
+        <label><b>Search</b></label>
         <input class="input" />
         <div class="dropdown">
             <div class="dropdown-menu">
@@ -15,28 +15,28 @@ const createAutoComplete = ({ root, renderOption, onOptionSelect, inputValue, fe
 
 
     const onInput = async event => {
-        const movies = await fetchData(event.target.value);
+        const items = await fetchData(event.target.value);
 
-        // after you delete the search term => if there is no movie fetched, remove the "is-active" class, and that will close the dropdown list.
-        if (!movies.length) {
+        // after you delete the search term => if there is no item fetched, remove the "is-active" class, and that will close the dropdown list.
+        if (!items.length) {
             dropdown.classList.remove('is-active');
             return;
         }
 
         //clear the previous search results
         resultsWrapper.innerHTML = '';
-        //  as soon as we fetched the movies, add this class to enable the dropdown
+        //  as soon as we fetched the items, add this class to enable the dropdown
         dropdown.classList.add('is-active');
         // generate some html content on the page, -> the search results
-        for (let movie of movies) {
+        for (let item of items) {
             const option = document.createElement('a');
 
             option.classList.add('dropdown-item');
-            option.innerHTML = renderOption(movie);
+            option.innerHTML = renderOption(item);
             option.addEventListener('click', () => {
                 dropdown.classList.remove('is-active');
-                input.value = inputValue(movie);
-                onOptionSelect(movie);
+                input.value = inputValue(item);
+                onOptionSelect(item);
             });
 
             resultsWrapper.appendChild(option);
