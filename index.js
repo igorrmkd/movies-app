@@ -36,7 +36,7 @@ createAutoComplete({
     onOptionSelect(movie) {
         /// after you click and select a movie.. hide the tutorial with a "bulma" class
         document.querySelector('.tutorial').classList.add('is-hidden');
-        onMovieSelect(movie, document.querySelector('#left-summary'));
+        onMovieSelect(movie, document.querySelector('#left-summary'), 'left');
     }
 });
 createAutoComplete({
@@ -45,11 +45,14 @@ createAutoComplete({
     onOptionSelect(movie) {
         /// after you click and select a movie.. hide the tutorial with a "bulma" class
         document.querySelector('.tutorial').classList.add('is-hidden');
-        onMovieSelect(movie, document.querySelector('#right-summary'));
+        onMovieSelect(movie, document.querySelector('#right-summary'), 'right');
     }
 });
 
-const onMovieSelect = async (movie, summaryElement) => {
+let leftMovie;
+let rightMovie;
+
+const onMovieSelect = async (movie, summaryElement, side) => {
     const response = await axios.get('http://www.omdbapi.com/', {
         params: {
             apikey: "c04285f4",
@@ -59,6 +62,20 @@ const onMovieSelect = async (movie, summaryElement) => {
 
     // generate the html template/movieTemplate(response.data)/ -> and show them on the "id summary" in index.html
     summaryElement.innerHTML = movieTemplate(response.data);
+
+    if (side === 'left') {
+        leftMovie = response.data;
+    } else {
+        rightMovie = response.data;
+    }
+
+    if (leftMovie && rightMovie) { // if both are defined.. compare them
+        runComparison();
+    }
+};
+
+const runComparison = () => {
+    console.log("ajkjdasjaalaallala");
 
 };
 
