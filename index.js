@@ -88,20 +88,18 @@ const movieTemplate = (movieDetail) => {
     const imdbRating = parseFloat(movieDetail.imdbRating);
     const imdbVotes = parseInt(movieDetail.imdbVotes.replace(/,/g, ''));
 
-    /// track the awards value 
-    let count = 0;
     /// split the content by empty spaces, and save them as words or numbers in a array
-    const awards = movieDetail.Awards.split(' ').forEach((word) => {
+    const awards = movieDetail.Awards.split(' ').reduce((prev, word) => {
         const value = parseInt(word); // convert all items to numbers, so that the words will become NaN
         if (isNaN(value)) { // if the parsed word is NaN, dont do anything
-            return;
+            return prev;
         } else {  // if the parsed word is a number, add it to count
-            count = count + value;
+            return prev + value;
         }
-    });
+    }, 0);
 
 
-    console.log(count);
+    console.log(awards);
 
 
     return `
